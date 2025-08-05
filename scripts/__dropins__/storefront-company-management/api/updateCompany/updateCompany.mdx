@@ -1,0 +1,48 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="API/updateCompany" />
+
+# updateCompany
+
+The `updateCompany` API function is used to update company information.
+
+```ts
+import { updateCompany } from '@/company/api/updateCompany';
+```
+
+## Usage
+
+```ts
+updateCompany(companyData: Partial<CompanyModel>): Promise<CompanyModel>;
+```
+
+## Parameters
+
+- `companyData`: Partial company data object containing fields to update
+
+## Returns
+
+Returns a Promise that resolves to the updated `CompanyModel`.
+
+## Example
+
+```ts
+// Update company information
+const updatedCompany = await updateCompany({
+  name: 'New Company Name',
+  email: 'newemail@company.com',
+  legal_name: 'Legal Company Name LLC',
+  vat_tax_id: 'VAT123456',
+  reseller_id: 'RESELLER789'
+});
+
+console.log('Updated company:', updatedCompany.name);
+```
+
+## Supported Fields
+
+- `name` - Company name
+- `email` - Company email address  
+- `legal_name` - Legal company name
+- `vat_tax_id` - VAT or Tax ID
+- `reseller_id` - Reseller identification number

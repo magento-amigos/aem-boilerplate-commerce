@@ -1,0 +1,77 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="API/Overview" />
+
+# Company Management API
+
+The Company Management API provides functions for managing B2B company information within Adobe Commerce storefronts.
+
+## Available Functions
+
+### Company Information
+
+- [`getCompany`](./getCompany) - Retrieve company information
+- [`updateCompany`](./updateCompany) - Update company information
+
+## Authentication
+
+All API functions require the user to be authenticated and associated with a company. The functions automatically handle:
+
+- GraphQL authentication headers
+- Company association validation
+- Permission checking for edit operations
+
+## Error Handling
+
+API functions include built-in error handling for:
+
+- Network errors
+- GraphQL errors
+- Permission denied scenarios
+- Validation errors
+
+## Caching
+
+The API uses session-based caching to improve performance:
+
+- Company data is cached after first load
+- Cache can be bypassed with `useCache: false` parameter
+- Cache is automatically updated after successful mutations
+
+## Example Usage
+
+```ts
+import { getCompany, updateCompany } from '@/company/api';
+
+// Initialize the API (usually done in app setup)
+import { initialize } from '@/company/api';
+initialize(config);
+
+// Get company information
+const company = await getCompany();
+
+// Update company information
+if (company?.canEdit) {
+  const updated = await updateCompany({
+    name: 'New Company Name',
+    email: 'newemail@example.com'
+  });
+}
+```
+
+## TypeScript Support
+
+All API functions are fully typed with TypeScript interfaces:
+
+- `CompanyModel` - Main company data structure
+- `CompanyLegalAddressModel` - Address information
+- `CompanyRole` - User role and permissions
+
+## Event Integration
+
+The API integrates with the Adobe Commerce event system:
+
+- `company/loaded` - Fired when company data is loaded
+- `company/updated` - Fired when company data is updated
+- `company/update-started` - Fired when update process begins
+- `company/update-failed` - Fired when update fails

@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="API/getCompany" />
+
+# getCompany
+
+The `getCompany` API function is used to retrieve company information for the current authenticated user.
+
+```ts
+import { getCompany } from '@/company/api/getCompany';
+```
+
+## Usage
+
+```ts
+getCompany(useCache?: boolean): Promise<CompanyModel | null>;
+```
+
+## Parameters
+
+- `useCache` (optional): Boolean flag to use cached data. Defaults to `true`.
+
+## Returns
+
+Returns a Promise that resolves to:
+- `CompanyModel` - Company information with permissions
+- `null` - When company data is not available
+
+## Example
+
+```ts
+// Get company with cache
+const company = await getCompany();
+
+// Force refresh from server
+const freshCompany = await getCompany(false);
+
+if (company) {
+  console.log('Company Name:', company.name);
+  console.log('Can Edit:', company.canEdit);
+}
+```
