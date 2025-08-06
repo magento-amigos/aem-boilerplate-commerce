@@ -1,0 +1,96 @@
+/********************************************************************
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2024 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ *******************************************************************/
+
+/* https://cssguidelin.es/#bem-like-naming */
+
+.company-profile__title {
+  margin-bottom: var(--spacing-medium);
+}
+
+.account-company-profile-card-short {
+  margin-bottom: var(--spacing-small);
+}
+
+.account-company-profile-card .dropin-card__content {
+  gap: 0;
+}
+
+.account-company-profile-card__wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: var(--grid-1-gutters) 0;
+}
+
+.account-company-profile-card .account-company-profile-card__actions {
+  margin-left: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 var(--grid-2-gutters);
+}
+
+@media (max-width: 300px) {
+  .account-company-profile-card
+    .account-company-profile-card__actions {
+    align-items: self-end;
+    flex-direction: column-reverse;
+  }
+}
+
+.account-company-profile-card
+  .account-company-profile-card__actions
+  button {
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.account-company-profile-card__content p {
+  font: var(--type-body-1-default-font);
+  margin: 0 var(--spacing-xsmall) 0 0;
+  line-height: var(--spacing-xbig);
+  padding: 0;
+}
+
+.account-company-profile-card__content p:nth-child(1),
+.account-company-profile-card__content p:nth-child(2) {
+  font: var(--type-body-1-strong-font);
+  font-weight: 500;
+  margin: 0 var(--spacing-xsmall) var(--spacing-xsmall) 0;
+}
+
+.account-company-profile-card__content .company-legal-address {
+  margin-top: var(--spacing-medium);
+}
+
+.account-company-profile-card__content .company-legal-address p {
+  margin-bottom: var(--spacing-xsmall);
+}
+
+.account-company-profile-card__content .company-legal-address p:first-child {
+  font: var(--type-body-1-strong-font);
+  font-weight: 500;
+  margin-bottom: var(--spacing-small);
+}
+
+.account-company-profile-card__no-data {
+  text-align: center;
+  color: var(--color-neutral-600);
+  font: var(--type-body-2-default-font);
+  padding: var(--spacing-medium);
+}

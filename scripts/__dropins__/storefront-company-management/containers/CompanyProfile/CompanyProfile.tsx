@@ -1,5 +1,6 @@
 import { classes, Container } from '@adobe-commerce/elsie/lib';
 import { Header } from '@adobe-commerce/elsie/components';
+import { useText } from '@adobe-commerce/elsie/i18n';
 import { CompanyProfileCard } from '../../components/CompanyProfileCard';
 import { EditCompanyProfile } from '../../components/EditCompanyProfile';
 import { CompanyCardLoader } from '../../components/CompanyLoaders';
@@ -12,6 +13,9 @@ export const CompanyProfile: Container<CompanyProfileProps> = ({
   withHeader = true,
   slots,
 }) => {
+  const translations = useText({
+    containerTitle: 'Company.CompanyProfile.containerTitle',
+  });
   const { inLineAlertProps, handleSetInLineAlert } = useInLineAlert();
   const {
     company,
@@ -23,19 +27,18 @@ export const CompanyProfile: Container<CompanyProfileProps> = ({
     handleUpdateCompany,
   } = useCompanyProfile({ handleSetInLineAlert });
 
-  if (loading) {
+  if (loading)
     return (
       <div data-testid="companyProfileLoader">
         <CompanyCardLoader withCard />
       </div>
     );
-  }
 
   return (
     <div className={classes(['account-company-profile', className])}>
       {withHeader ? (
         <Header
-          title="Company Profile"
+          title={translations.containerTitle}
           divider={false}
           className={'company-profile__title'}
         />

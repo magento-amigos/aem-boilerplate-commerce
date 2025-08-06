@@ -8,7 +8,9 @@ import {
   Input,
   Field,
 } from '@adobe-commerce/elsie/components';
-import { EditCompanyProfileProps } from '../../types';
+import { useText } from '@adobe-commerce/elsie/i18n';
+import { EditCompanyProfileProps } from '../../types/companyProfile.types';
+import './EditCompanyProfile.css';
 
 export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
   inLineAlertProps,
@@ -17,6 +19,17 @@ export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
   onSubmit,
   onCancel,
 }) => {
+  const translations = useText({
+    title: 'Company.EditCompanyProfile.title',
+    companyName: 'Company.shared.fields.companyName',
+    email: 'Company.shared.fields.email',
+    legalName: 'Company.shared.fields.legalName',
+    vatTaxId: 'Company.shared.fields.vatTaxId',
+    resellerId: 'Company.shared.fields.resellerId',
+    cancel: 'Company.shared.buttons.cancel',
+    save: 'Company.shared.buttons.save',
+    saving: 'Company.shared.buttons.saving',
+  });
   const [formData, setFormData] = useState({
     name: company?.name || '',
     email: company?.email || '',
@@ -39,7 +52,7 @@ export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
   return (
     <Card variant="secondary" className={'account-edit-company-profile'}>
       <Header
-        title="Edit Company Profile"
+        title={translations.title}
         divider={false}
         className={'account-edit-company-profile__title'}
       />
@@ -57,7 +70,7 @@ export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
         className="account-edit-company-profile-form"
         onSubmit={handleSubmit}
       >
-        <Field label="Company Name" required>
+        <Field label={translations.companyName} required className="account-edit-company-profile-form__field">
           <Input
             name="name"
             type="text"
@@ -69,7 +82,7 @@ export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
           />
         </Field>
 
-        <Field label="Email" required>
+        <Field label={translations.email} required className="account-edit-company-profile-form__field">
           <Input
             name="email"
             type="email"
@@ -81,7 +94,7 @@ export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
           />
         </Field>
 
-        <Field label="Legal Name">
+        <Field label={translations.legalName} className="account-edit-company-profile-form__field">
           <Input
             name="legal_name"
             type="text"
@@ -93,7 +106,7 @@ export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
           />
         </Field>
 
-        <Field label="VAT/Tax ID">
+        <Field label={translations.vatTaxId} className="account-edit-company-profile-form__field">
           <Input
             name="vat_tax_id"
             type="text"
@@ -105,7 +118,7 @@ export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
           />
         </Field>
 
-        <Field label="Reseller ID">
+        <Field label={translations.resellerId} className="account-edit-company-profile-form__field">
           <Input
             name="reseller_id"
             type="text"
@@ -125,10 +138,10 @@ export const EditCompanyProfile: FunctionComponent<EditCompanyProfileProps> = ({
             variant="secondary"
             onClick={onCancel}
           >
-            Cancel
+            {translations.cancel}
           </Button>
           <Button disabled={loading} type="submit" variant="primary">
-            {loading ? 'Saving...' : 'Save Changes'}
+            {loading ? translations.saving : translations.save}
           </Button>
         </div>
       </form>

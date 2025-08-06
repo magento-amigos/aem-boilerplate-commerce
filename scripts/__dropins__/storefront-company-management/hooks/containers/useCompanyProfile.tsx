@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
-import { getCompany, updateCompany } from '../../chunks';
+import { getCompany, updateCompany } from '../../api';
 import { CompanyModel } from '../../data/models';
 
 export interface UseCompanyProfileProps {

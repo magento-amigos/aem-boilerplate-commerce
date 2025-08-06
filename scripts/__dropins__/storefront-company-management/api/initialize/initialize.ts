@@ -1,6 +1,6 @@
 import { FetchGraphQL } from '@adobe-commerce/fetch-graphql';
 
-const { setEndpoint, setFetchGraphQlHeader, setFetchGraphQlHeaders: setHeaders } = new FetchGraphQL().getMethods();
+const { setEndpoint, setFetchGraphQlHeader, setFetchGraphQlHeaders } = new FetchGraphQL().getMethods();
 
 export interface CompanyDropinConfig {
   langDefinitions?: Record<string, Record<string, string>>;
@@ -25,14 +25,3 @@ export const initialize = async (config: CompanyDropinConfig = {}) => {
   };
 };
 
-export const setFetchGraphQlHeaders = (headers: Record<string, string> | ((prev: Record<string, string>) => Record<string, string>)) => {
-  if (typeof headers === 'function') {
-    // Get current headers and merge
-    setHeaders(headers);
-  } else {
-    // Set headers directly
-    Object.entries(headers).forEach(([key, value]) => {
-      setFetchGraphQlHeader(key, value);
-    });
-  }
-};

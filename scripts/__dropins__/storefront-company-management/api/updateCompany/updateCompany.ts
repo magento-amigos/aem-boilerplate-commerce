@@ -24,9 +24,36 @@ import { CompanyModel } from '../../data/models/company';
 import { updateCompanyResponse } from '../../types';
 
 export const updateCompany = async (input: any): Promise<CompanyModel> => {
+  // Transform field names to match GraphQL schema expectations
+  const transformedInput: any = {};
+  
+  // Map frontend field names to GraphQL schema field names
+  if (input.name !== undefined) {
+    transformedInput.company_name = input.name;
+  }
+  if (input.email !== undefined) {
+    transformedInput.company_email = input.email;
+  }
+  if (input.legal_name !== undefined) {
+    transformedInput.legal_name = input.legal_name;
+  }
+  if (input.vat_tax_id !== undefined) {
+    transformedInput.vat_tax_id = input.vat_tax_id;
+  }
+  if (input.reseller_id !== undefined) {
+    transformedInput.reseller_id = input.reseller_id;
+  }
+  
+  // Copy any other fields that don't need transformation
+  Object.keys(input).forEach(key => {
+    if (!['name', 'email', 'legal_name', 'vat_tax_id', 'reseller_id'].includes(key)) {
+      transformedInput[key] = input[key];
+    }
+  });
+
   return await fetchGraphQl(UPDATE_COMPANY, {
     method: 'POST',
-    variables: { input },
+    variables: { input: transformedInput },
   })
     .then((response: updateCompanyResponse) => {
       if (response.errors?.length) return handleFetchError(response.errors);

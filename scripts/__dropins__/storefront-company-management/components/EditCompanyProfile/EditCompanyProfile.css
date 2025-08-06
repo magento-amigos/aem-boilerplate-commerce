@@ -1,0 +1,80 @@
+/********************************************************************
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2024 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ *******************************************************************/
+
+/* https://cssguidelin.es/#bem-like-naming */
+
+.account-edit-company-profile__title {
+  margin-bottom: var(--spacing-medium);
+}
+
+.account-edit-company-profile .dropin-card__content {
+  gap: 0;
+}
+
+.account-edit-company-profile
+  .account-edit-company-profile__notification {
+  margin-bottom: var(--spacing-medium);
+}
+
+.account-edit-company-profile
+  .account-edit-company-profile-form__field:nth-child(n + 3) {
+  grid-column: span 2;
+}
+
+.account-edit-company-profile .account-edit-company-profile__actions {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 0 var(--grid-2-gutters);
+  grid-column: span 2;
+  margin-top: var(--spacing-medium);
+}
+
+.account-edit-company-profile
+  .account-edit-company-profile__actions
+  button {
+  min-width: 144px;
+}
+
+.account-edit-company-profile-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-medium) var(--grid-2-gutters);
+}
+
+@media (max-width: 768px) {
+  .account-edit-company-profile-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .account-edit-company-profile
+    .account-edit-company-profile-form__field:nth-child(n + 3) {
+    grid-column: span 1;
+  }
+  
+  .account-edit-company-profile .account-edit-company-profile__actions {
+    grid-column: span 1;
+    flex-direction: column;
+    gap: var(--spacing-small);
+  }
+  
+  .account-edit-company-profile
+    .account-edit-company-profile__actions
+    button {
+    width: 100%;
+  }
+}

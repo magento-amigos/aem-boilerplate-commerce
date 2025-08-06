@@ -1,38 +1,29 @@
 declare const _default: {
-  "companyInfo": {
-    "title": "Company Profile",
-    "editButton": "Edit",
-    "saveButton": "Save Changes",
-    "cancelButton": "Cancel",
-    "loading": "Loading company profile...",
-    "sections": {
-      "companyDetails": "Company Details",
-      "legalAddress": "Legal Address",
-      "streetAddress": "Street Address"
+  "Company": {
+    "shared": {
+      "fields": {
+        "companyName": "Company Name",
+        "email": "Email",
+        "legalName": "Legal Name",
+        "vatTaxId": "VAT/Tax ID",
+        "resellerId": "Reseller ID",
+        "legalAddress": "Legal Address"
+      },
+      "buttons": {
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "saving": "Saving..."
+      }
     },
-    "fields": {
-      "companyName": "Company Name",
-      "companyEmail": "Company Email",
-      "legalName": "Legal Name",
-      "vatId": "VAT ID / Tax ID",
-      "resellerId": "Re-seller ID",
-      "streetAddress": "Street Address",
-      "streetAddress2": "Street Address Line 2",
-      "city": "City",
-      "country": "Country",
-      "state": "State/Province",
-      "postcode": "ZIP/Postal Code",
-      "phoneNumber": "Phone Number"
+    "CompanyProfile": {
+      "containerTitle": "Company Profile"
     },
-    "placeholders": {
-      "notProvided": "Not provided"
+    "CompanyProfileCard": {
+      "noDataMessage": "Company profile not available. Please contact your administrator."
     },
-    "messages": {
-          "updateSuccess": "Company profile updated successfully",
-    "updateError": "Failed to update company profile",
-    "loadError": "Failed to load company profile",
-    "noCompany": "Company profile not available. Please contact your administrator.",
-    "permissionDenied": "You don't have permission to edit company profile"
+    "EditCompanyProfile": {
+      "title": "Edit Company Profile"
     }
   }
 };

@@ -18,7 +18,7 @@
 // https://storybook.js.org/docs/7.0/preact/writing-stories/introduction
 import type { Meta, StoryObj } from '@storybook/preact';
 import { CompanyProfileCard } from './CompanyProfileCard';
-import { CompanyProfileCardProps } from '../../types';
+import { CompanyProfileCardProps } from '../../types/companyProfile.types';
 import { action } from '@storybook/addon-actions';
 
 /**
@@ -56,7 +56,7 @@ const meta: Meta<CompanyProfileCardProps> = {
 
 export default meta;
 
-type Story = StoryObj<CompanyInformationCardProps>;
+type Story = StoryObj<CompanyProfileCardProps>;
 
 /**
  * Basic story for the CompanyInformationCard component with standard company data.

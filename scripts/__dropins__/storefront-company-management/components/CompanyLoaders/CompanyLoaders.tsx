@@ -1,49 +1,77 @@
-import { FunctionComponent } from 'preact';
-import { Card, Skeleton, SkeletonRow } from '@adobe-commerce/elsie/components';
+/********************************************************************
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2024 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ *******************************************************************/
 
-export const CompanyCardLoader: FunctionComponent<{
+import { Skeleton, SkeletonRow, Card } from '@adobe-commerce/elsie/components';
+import './CompanyLoaders.css';
+import { classes } from '@adobe-commerce/elsie/lib';
+
+export const CompanyCardLoader = ({
+  testId,
+  withCard = true,
+}: {
   testId?: string;
   withCard?: boolean;
-}> = ({ testId, withCard = true }) => {
-  const content = (
-    <Skeleton rowGap="medium" data-testid={testId}>
-      <div className="company-card-loader__header">
-        <SkeletonRow size="large" variant="heading" />
-        <SkeletonRow size="small" variant="row" />
-      </div>
-      <div className="company-card-loader__content">
-        <div className="company-card-loader__section">
-          <SkeletonRow size="medium" variant="heading" />
-          <SkeletonRow size="medium" lines={5} multilineGap="small" />
-        </div>
-        <div className="company-card-loader__section">
-          <SkeletonRow size="medium" variant="heading" />
-          <SkeletonRow size="medium" lines={3} multilineGap="small" />
-        </div>
-      </div>
+}) => {
+  const defaultSkeleton = (
+    <Skeleton data-testid={testId || 'companySkeletonLoader'}>
+      <SkeletonRow
+        variant="heading"
+        size="xlarge"
+        fullWidth={false}
+        lines={1}
+      />
+      <SkeletonRow variant="heading" size="xlarge" fullWidth={true} lines={1} />
+      <SkeletonRow variant="heading" size="xlarge" fullWidth={true} lines={1} />
     </Skeleton>
   );
 
-  return withCard ? (
-    <Card variant="primary" className="company-card-loader">
-      {content}
+  if (withCard) {
+    return defaultSkeleton;
+  }
+
+  return (
+    <Card
+      variant="secondary"
+      className={classes([
+        'company-company-loaders',
+        'company-company-loaders--card-loader',
+      ])}
+    >
+      {defaultSkeleton}
     </Card>
-  ) : (
-    content
   );
 };
 
-export const CompanyFormLoader: FunctionComponent = () => {
+export const CompanyFormLoader = () => {
   return (
-    <Card variant="primary" className="company-form-loader">
-      <Skeleton rowGap="medium">
-        <SkeletonRow size="large" variant="heading" />
-        <SkeletonRow size="medium" lines={5} multilineGap="medium" />
-        <div className="company-form-loader__actions">
-          <SkeletonRow size="small" variant="row" />
-          <SkeletonRow size="small" variant="row" />
-        </div>
-      </Skeleton>
-    </Card>
+    <Skeleton data-testid="companyFormLoader">
+      <SkeletonRow variant="heading" size="medium" />
+      <SkeletonRow variant="empty" size="medium" />
+      <SkeletonRow size="large" />
+      <SkeletonRow size="large" />
+      <SkeletonRow size="large" fullWidth={true} />
+      <SkeletonRow size="large" fullWidth={true} lines={3} />
+      <SkeletonRow size="large" />
+      <SkeletonRow size="large" />
+      <SkeletonRow size="large" />
+      <SkeletonRow size="large" />
+      <SkeletonRow size="large" />
+      <SkeletonRow size="large" />
+      <SkeletonRow size="large" fullWidth={true} />
+    </Skeleton>
   );
 };

@@ -1,7 +1,9 @@
 import { FunctionComponent } from 'preact';
 import { Card, Button } from '@adobe-commerce/elsie/components';
 import { classes, Slot } from '@adobe-commerce/elsie/lib';
-import { CompanyProfileCardProps } from '../../types';
+import { useText } from '@adobe-commerce/elsie/i18n';
+import { CompanyProfileCardProps } from '../../types/companyProfile.types';
+import './CompanyProfileCard.css';
 
 export const CompanyProfileCard: FunctionComponent<CompanyProfileCardProps> = ({
   company,
@@ -9,12 +11,25 @@ export const CompanyProfileCard: FunctionComponent<CompanyProfileCardProps> = ({
   showEditForm,
   handleShowEditForm,
 }) => {
+  const translations = useText({
+    editButton: 'Company.shared.buttons.edit',
+    noDataMessage: 'Company.CompanyProfileCard.noDataMessage',
+    companyName: 'Company.shared.fields.companyName',
+    email: 'Company.shared.fields.email',
+    legalName: 'Company.shared.fields.legalName',
+    vatTaxId: 'Company.shared.fields.vatTaxId',
+    resellerId: 'Company.shared.fields.resellerId',
+    legalAddress: 'Company.shared.fields.legalAddress',
+  });
+  
   if (!company) {
     return (
       <Card variant="secondary" className="account-company-profile-card">
         <div className="account-company-profile-card__wrapper">
           <div className="account-company-profile-card__content">
-            <p>Company profile not available. Please contact your administrator.</p>
+            <div className="account-company-profile-card__no-data">
+              <p>{translations.noDataMessage}</p>
+            </div>
           </div>
         </div>
       </Card>
@@ -22,11 +37,11 @@ export const CompanyProfileCard: FunctionComponent<CompanyProfileCardProps> = ({
   }
 
   const companyData = [
-    { name: 'name', label: 'Company Name', value: company.name || '' },
-    { name: 'email', label: 'Email', value: company.email || '' },
-    { name: 'legal_name', label: 'Legal Name', value: company.legal_name || '' },
-    { name: 'vat_tax_id', label: 'VAT/Tax ID', value: company.vat_tax_id || '' },
-    { name: 'reseller_id', label: 'Reseller ID', value: company.reseller_id || '' },
+    { name: 'name', label: translations.companyName, value: company.name || '' },
+    { name: 'email', label: translations.email, value: company.email || '' },
+    { name: 'legal_name', label: translations.legalName, value: company.legal_name || '' },
+    { name: 'vat_tax_id', label: translations.vatTaxId, value: company.vat_tax_id || '' },
+    { name: 'reseller_id', label: translations.resellerId, value: company.reseller_id || '' },
   ];
 
   return (
@@ -49,7 +64,7 @@ export const CompanyProfileCard: FunctionComponent<CompanyProfileCardProps> = ({
               variant="tertiary"
               onClick={handleShowEditForm}
             >
-              Edit
+              {translations.editButton}
             </Button>
           )}
         </div>
@@ -78,9 +93,9 @@ export const CompanyProfileCard: FunctionComponent<CompanyProfileCardProps> = ({
                 );
               })}
               {company.legal_address && (
-                <>
-                  <p><strong>Legal Address:</strong></p>
-                  {company.legal_address.street?.map((line, i) => (
+                <div className="company-legal-address">
+                  <p><strong>{translations.legalAddress}:</strong></p>
+                  {company.legal_address.street?.map((line: string, i: number) => (
                     <p key={i}>{line}</p>
                   ))}
                   <p>
@@ -90,7 +105,7 @@ export const CompanyProfileCard: FunctionComponent<CompanyProfileCardProps> = ({
                   {company.legal_address.telephone && (
                     <p>Phone: {company.legal_address.telephone}</p>
                   )}
-                </>
+                </div>
               )}
             </>
           )}

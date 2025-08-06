@@ -1,8 +1,7 @@
-import { FunctionComponent } from 'preact';
 
-export declare const CompanyCardLoader: FunctionComponent<{
-    testId?: string;
-    withCard?: boolean;
-}>;
-export declare const CompanyFormLoader: FunctionComponent;
+export declare const CompanyCardLoader: ({ testId, withCard, }: {
+    testId?: string | undefined;
+    withCard?: boolean | undefined;
+}) => import("preact").JSX.Element;
+export declare const CompanyFormLoader: () => import("preact").JSX.Element;
 //# sourceMappingURL=CompanyLoaders.d.ts.map
