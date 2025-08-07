@@ -38,5 +38,70 @@ const freshCompany = await getCompany(false);
 if (company) {
   console.log('Company Name:', company.name);
   console.log('Can Edit:', company.canEdit);
+  
+  // Access legal address
+  if (company.legal_address) {
+    console.log('Address:', company.legal_address.street.join(', '));
+    console.log('City:', company.legal_address.city);
+    console.log('Region:', company.legal_address.region?.region);
+    console.log('Country:', company.legal_address.countryCode);
+  }
+  
+  // Access company admin
+  if (company.company_admin) {
+    console.log('Admin:', `${company.company_admin.firstname} ${company.company_admin.lastname}`);
+  }
+  
+  // Access sales representative
+  if (company.sales_representative) {
+    console.log('Sales Rep:', company.sales_representative.email);
+  }
+  
+  // Access payment methods
+  if (company.payment_methods) {
+    console.log('Payment Methods:', company.payment_methods);
+  }
 }
 ```
+
+## CompanyModel Structure
+
+The returned `CompanyModel` includes:
+
+### Basic Information
+- `id` - Unique company identifier
+- `name` - Company display name
+- `email` - Company email address
+- `legal_name` - Legal company name
+- `vat_tax_id` - VAT or tax identification number
+- `reseller_id` - Reseller identification number
+
+### Legal Address
+- `legal_address.street` - Array of street address lines
+- `legal_address.city` - City name
+- `legal_address.region` - Region object with `region`, `regionCode`, and `regionId`
+- `legal_address.countryCode` - ISO 2-letter country code
+- `legal_address.postcode` - Postal/ZIP code
+- `legal_address.telephone` - Phone number
+
+### Company Admin
+- `company_admin.id` - Admin user ID
+- `company_admin.firstname` - Admin first name
+- `company_admin.lastname` - Admin last name
+- `company_admin.email` - Admin email address
+
+### Sales Representative
+- `sales_representative.firstname` - Sales rep first name
+- `sales_representative.lastname` - Sales rep last name
+- `sales_representative.email` - Sales rep email address
+
+### Payment & Permissions
+- `payment_methods` - Array of available payment method codes
+- `canEdit` - Boolean indicating edit permissions
+- `customerRole` - User role and permissions object
+- `customerStatus` - Customer account status
+
+## Related APIs
+
+- [`updateCompany`](../updateCompany/updateCompany.mdx) - Update company information
+- [`getCountries`](../getCountries/getCountries.mdx) - Get countries for address forms

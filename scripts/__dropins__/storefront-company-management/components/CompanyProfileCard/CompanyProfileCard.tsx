@@ -1,3 +1,20 @@
+/********************************************************************
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2025 Adobe
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Adobe
+ * and its suppliers and are protected by all applicable intellectual
+ * property laws, including trade secret and copyright laws.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe.
+ *******************************************************************/
+
 import { FunctionComponent } from 'preact';
 import { Card, Button } from '@adobe-commerce/elsie/components';
 import { classes, Slot } from '@adobe-commerce/elsie/lib';
@@ -20,6 +37,11 @@ export const CompanyProfileCard: FunctionComponent<CompanyProfileCardProps> = ({
     vatTaxId: 'Company.shared.fields.vatTaxId',
     resellerId: 'Company.shared.fields.resellerId',
     legalAddress: 'Company.shared.fields.legalAddress',
+    contacts: 'Company.CompanyProfileCard.contacts',
+    companyAdministrator: 'Company.CompanyProfileCard.companyAdministrator',
+    salesRepresentative: 'Company.CompanyProfileCard.salesRepresentative',
+    paymentInformation: 'Company.CompanyProfileCard.paymentInformation',
+    availablePaymentMethods: 'Company.CompanyProfileCard.availablePaymentMethods',
   });
   
   if (!company) {
@@ -105,6 +127,39 @@ export const CompanyProfileCard: FunctionComponent<CompanyProfileCardProps> = ({
                   {company.legal_address.telephone && (
                     <p>Phone: {company.legal_address.telephone}</p>
                   )}
+                </div>
+              )}
+
+              {(company.company_admin || company.sales_representative) && (
+                <div className="company-contacts">
+                  <p><strong>{translations.contacts}:</strong></p>
+                  
+                  {company.company_admin && (
+                    <div className="company-contact">
+                      <p><strong>{translations.companyAdministrator}:</strong></p>
+                      <p>{company.company_admin.firstname} {company.company_admin.lastname}</p>
+                      {company.company_admin.job_title && <p>{company.company_admin.job_title}</p>}
+                      <p>{company.company_admin.email}</p>
+                    </div>
+                  )}
+
+                  {company.sales_representative && (
+                    <div className="company-contact">
+                      <p><strong>{translations.salesRepresentative}:</strong></p>
+                      <p>{company.sales_representative.firstname} {company.sales_representative.lastname}</p>
+                      <p>{company.sales_representative.email}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {company.payment_methods && company.payment_methods.length > 0 && (
+                <div className="company-payment-methods">
+                  <p><strong>{translations.paymentInformation}:</strong></p>
+                  <p><strong>{translations.availablePaymentMethods}:</strong></p>
+                  {company.payment_methods.map((method, index) => (
+                    <p key={`payment_${index}`}>{method}</p>
+                  ))}
                 </div>
               )}
             </>

@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2024 Adobe
+ *  Copyright 2025 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -59,7 +59,7 @@ export default meta;
 type Story = StoryObj<CompanyProfileCardProps>;
 
 /**
- * Basic story for the CompanyInformationCard component with standard company data.
+ * Basic story for the CompanyProfileCard component with complete company data.
  */
 export const Basic: Story = {
   args: {
@@ -82,6 +82,18 @@ export const Basic: Story = {
         postcode: '94105',
         telephone: '+1-555-0199',
       },
+      company_admin: {
+        id: '1',
+        firstname: 'John',
+        lastname: 'Doe',
+        email: 'john.doe@acme.com',
+      },
+      sales_representative: {
+        firstname: 'Jane',
+        lastname: 'Smith',
+        email: 'jane.smith@adobe.com',
+      },
+      payment_methods: ['banktransfer', 'checkmo', 'payflowpro'],
       canEdit: true,
       customerRole: {
         id: '1',

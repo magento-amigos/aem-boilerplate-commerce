@@ -39,10 +39,69 @@ const updatedCompany = await updateCompany({
 console.log('Updated company:', updatedCompany.name);
 ```
 
+## Updating Legal Address
+
+The `updateCompany` function also supports updating the company's legal address:
+
+```ts
+// Update company with legal address
+const updatedCompany = await updateCompany({
+  name: 'Acme Corporation',
+  legal_address: {
+    street: ['123 Business Ave', 'Suite 100'],
+    city: 'San Francisco',
+    region: {
+      region: 'California',
+      region_code: 'CA',
+    },
+    country_code: 'US',
+    postcode: '94105',
+    telephone: '+1-555-123-4567',
+  }
+});
+```
+
+## Custom Regions
+
+For countries without predefined regions, you can specify custom regions:
+
+```ts
+// Update with custom region (e.g., for countries like Uganda)
+const updatedCompany = await updateCompany({
+  legal_address: {
+    street: ['456 International Blvd'],
+    city: 'Kampala',
+    region: {
+      region: 'Central Region',
+      region_code: 'Central Region',
+    },
+    country_code: 'UG',
+    postcode: '12345',
+    telephone: '+256-123-456789',
+  }
+});
+```
+
+**Note**: Custom regions are automatically handled by the backend with `region_id: 0`.
+
 ## Supported Fields
 
+### Basic Information
 - `name` - Company name
 - `email` - Company email address  
 - `legal_name` - Legal company name
 - `vat_tax_id` - VAT or Tax ID
 - `reseller_id` - Reseller identification number
+
+### Legal Address
+- `legal_address.street` - Array of street address lines
+- `legal_address.city` - City name
+- `legal_address.region` - Region object with `region` and `region_code`
+- `legal_address.country_code` - ISO 2-letter country code
+- `legal_address.postcode` - Postal/ZIP code
+- `legal_address.telephone` - Phone number
+
+## Related APIs
+
+- [`getCountries`](../getCountries/getCountries.mdx) - Get available countries and regions for address forms
+- [`getCompany`](../getCompany/getCompany.mdx) - Retrieve current company information

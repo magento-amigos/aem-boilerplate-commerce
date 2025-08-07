@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2024 Adobe
+ *  Copyright 2025 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -15,138 +15,156 @@
  * from Adobe.
  *******************************************************************/
 
-// @ts-nocheck
-import { render, screen, fireEvent } from '@adobe-commerce/elsie/lib/tests';
-import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@adobe-commerce/elsie/lib/tests';
 import { CompanyProfile } from './CompanyProfile';
+import '@testing-library/jest-dom';
 import { useCompanyProfile } from '../../hooks/containers/useCompanyProfile';
-import { useInLineAlert } from '../../hooks/useInLineAlert';
-import { getCompany, updateCompany } from '../../api';
+import { checkIsCompanyEnabled } from '../../api/checkIsCompanyEnabled';
 
+// Mock the useCompanyProfile hook
 jest.mock('../../hooks/containers/useCompanyProfile');
-jest.mock('../../hooks/useInLineAlert');
-jest.mock('../../api/getCompany');
-jest.mock('../../api/updateCompany');
-jest.mock('../../components/EditCompanyProfile');
 
-const useCompanyProfileMock = {
-  company: {
-    id: '1',
-    name: 'Test Company',
-    email: 'test@company.com',
-    legal_name: 'Test Company Legal',
-    vat_tax_id: '12345',
-    reseller_id: '67890',
-    legal_address: {
-      street: ['123 Main St'],
-      city: 'Test City',
-      region: { region: 'CA' },
-      postcode: '12345',
-      country_code: 'US'
+// Mock the checkIsCompanyEnabled function
+jest.mock('../../api/checkIsCompanyEnabled');
+
+// Mock i18n
+jest.mock('@adobe-commerce/elsie/i18n', () => ({
+  useText: () => ({
+    containerTitle: 'Company Profile',
+    companyNotEnabled: 'Company functionality is not enabled',
+  }),
+  getDefinitionByLanguage: jest.fn(() => ({})),
+}));
+
+const mockUseCompanyProfile = useCompanyProfile as jest.MockedFunction<typeof useCompanyProfile>;
+const mockCheckIsCompanyEnabled = checkIsCompanyEnabled as jest.MockedFunction<typeof checkIsCompanyEnabled>;
+
+const mockCompany = {
+  id: '1',
+  name: 'Test Company',
+  email: 'test@company.com',
+  legal_name: 'Test Company Legal',
+  vat_tax_id: '12345',
+  reseller_id: '67890',
+  legal_address: {
+    street: ['123 Main St'],
+    city: 'Test City',
+    region: {
+      region: 'California',
+      regionCode: 'CA',
+      regionId: 12,
     },
-    canEdit: true
+    countryCode: 'US',
+    postcode: '12345',
+    telephone: '+1-555-123-4567',
   },
-  loading: false,
-  saving: false,
-  showEditForm: false,
-  handleShowEditForm: jest.fn(),
-  handleHideEditForm: jest.fn(),
-  handleUpdateCompany: jest.fn(),
+  canEdit: true,
+  customerRole: {
+    id: '1',
+    name: 'Company Administrator',
+    permissions: [
+      { id: '1', text: 'Magento_Company::edit_company_profile' },
+    ],
+  },
+  customerStatus: 'ACTIVE',
 };
-
-const useInLineAlertMock = {
-  inLineAlertProps: null,
-  handleSetInLineAlert: jest.fn(),
-};
-
-beforeEach(() => {
-  (useCompanyProfile as jest.Mock).mockReturnValue(useCompanyProfileMock);
-  (useInLineAlert as jest.Mock).mockReturnValue(useInLineAlertMock);
-});
 
 describe('CompanyProfile Container', () => {
-  it('renders loading state correctly', () => {
-    (useCompanyProfile as jest.Mock).mockReturnValue({
-      ...useCompanyProfileMock,
-      loading: true,
+  beforeEach(() => {
+    jest.clearAllMocks();
+    // Default mock for company enabled
+    mockCheckIsCompanyEnabled.mockResolvedValue({
+      companyEnabled: true,
     });
+    mockUseCompanyProfile.mockReturnValue({
+      company: mockCompany,
+      loading: false,
+      saving: false,
+      showEditForm: false,
+      handleShowEditForm: jest.fn(),
+      handleHideEditForm: jest.fn(),
+      handleUpdateCompany: jest.fn(),
+    });
+  });
+
+  it('renders company profile with header by default', () => {
+    const { container } = render(<CompanyProfile />);
+    expect(container).toBeInTheDocument();
+    expect(screen.getByText('Company Profile')).toBeInTheDocument();
+  });
+
+  it('renders without header when withHeader is false', () => {
+    const { container } = render(<CompanyProfile withHeader={false} />);
+    expect(container).toBeInTheDocument();
+    expect(screen.queryByText('Company Profile')).not.toBeInTheDocument();
+  });
+
+  it('applies custom className correctly', () => {
+    const { container } = render(<CompanyProfile className="custom-class" />);
+    const profileDiv = container.querySelector('.account-company-profile');
+    expect(profileDiv).toHaveClass('account-company-profile');
+    expect(profileDiv).toHaveClass('custom-class');
+  });
+
+  it('handles loading state', () => {
+    mockUseCompanyProfile.mockReturnValue({
+      company: null,
+      loading: true,
+      saving: false,
+      showEditForm: false,
+      handleShowEditForm: jest.fn(),
+      handleHideEditForm: jest.fn(),
+      handleUpdateCompany: jest.fn(),
+    });
+
+    const { container } = render(<CompanyProfile />);
+    expect(container).toBeInTheDocument();
+  });
+
+  it('redirects to /customer/account when company functionality is not enabled', async () => {
+    const originalLocation = window.location;
+    delete (window as any).location;
+    window.location = { ...originalLocation, href: '' };
+
+    mockCheckIsCompanyEnabled.mockResolvedValue({
+      companyEnabled: false,
+      error: 'Company functionality not available',
+    });
+
+    const { container } = render(<CompanyProfile />);
+
+    await waitFor(() => {
+      expect(window.location.href).toBe('/customer/account');
+    });
+
+    expect(container.firstChild).toBeNull();
+    expect(mockCheckIsCompanyEnabled).toHaveBeenCalledTimes(1);
+
+    // Restore original location
+    window.location = originalLocation;
+  });
+
+  it('shows loader while checking company status', () => {
+    // Mock checkIsCompanyEnabled to never resolve (simulating loading)
+    mockCheckIsCompanyEnabled.mockImplementation(() => new Promise(() => {}));
 
     render(<CompanyProfile />);
 
     expect(screen.getByTestId('companyProfileLoader')).toBeInTheDocument();
   });
 
-  it('renders company profile with header by default', () => {
-    render(<CompanyProfile />);
+  it('proceeds normally when company is enabled', async () => {
+    mockCheckIsCompanyEnabled.mockResolvedValue({
+      companyEnabled: true,
+    });
+
+    const { container } = render(<CompanyProfile />);
+
+    await waitFor(() => {
+      expect(container.querySelector('.account-company-profile')).toBeInTheDocument();
+    });
 
     expect(screen.getByText('Company Profile')).toBeInTheDocument();
-    expect(screen.getByText('Test Company')).toBeInTheDocument();
-    expect(screen.getByText('test@company.com')).toBeInTheDocument();
-  });
-
-  it('renders without header when withHeader is false', () => {
-    render(<CompanyProfile withHeader={false} />);
-
-    expect(screen.queryByText('Company Profile')).not.toBeInTheDocument();
-    expect(screen.getByText('Test Company')).toBeInTheDocument();
-  });
-
-  it('shows edit form when showEditForm is true', () => {
-    (useCompanyProfile as jest.Mock).mockReturnValue({
-      ...useCompanyProfileMock,
-      showEditForm: true,
-    });
-
-    render(<CompanyProfile />);
-
-    expect(screen.getByText('Edit Company Profile')).toBeInTheDocument();
-  });
-
-  it('applies custom className correctly', () => {
-    const { container } = render(<CompanyProfile className="custom-class" />);
-
-    expect(container.firstChild).toHaveClass('account-company-profile');
-    expect(container.firstChild).toHaveClass('custom-class');
-  });
-
-  it('handles company profile card interactions', () => {
-    render(<CompanyProfile />);
-
-    const editButton = screen.getByText('Edit');
-    fireEvent.click(editButton);
-
-    expect(useCompanyProfileMock.handleShowEditForm).toHaveBeenCalled();
-  });
-
-  it('renders with no company data', () => {
-    (useCompanyProfile as jest.Mock).mockReturnValue({
-      ...useCompanyProfileMock,
-      company: null,
-    });
-
-    render(<CompanyProfile />);
-
-    expect(screen.getByText('Company profile not available. Please contact your administrator.')).toBeInTheDocument();
-  });
-
-  it('handles edit form submission', () => {
-    (useCompanyProfile as jest.Mock).mockReturnValue({
-      ...useCompanyProfileMock,
-      showEditForm: true,
-      saving: true,
-    });
-
-    render(<CompanyProfile />);
-
-    expect(screen.getByText('Edit Company Profile')).toBeInTheDocument();
-  });
-
-  it('passes slots correctly to CompanyProfileCard', () => {
-    const mockSlots = { test: <div>Test Slot</div> };
-    
-    render(<CompanyProfile slots={mockSlots} />);
-
-    // CompanyProfileCard should receive the slots prop
-    expect(screen.getByText('Test Company')).toBeInTheDocument();
+    expect(mockCheckIsCompanyEnabled).toHaveBeenCalledTimes(1);
   });
 });

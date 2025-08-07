@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2024 Adobe
+ *  Copyright 2025 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -41,7 +41,14 @@ export interface getCompanyResponse {
         firstname: string;
         lastname: string;
         email: string;
+        job_title?: string;
       };
+      sales_representative?: {
+        firstname: string;
+        lastname: string;
+        email: string;
+      };
+      payment_methods?: string[];
     };
     customer?: {
       role?: {

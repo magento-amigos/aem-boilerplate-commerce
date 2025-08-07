@@ -8,6 +8,18 @@ export interface CompanyRole {
         text: string;
     }[];
 }
+export interface CompanyContact {
+    id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    job_title?: string;
+}
+export interface CompanySalesRepresentative {
+    firstname: string;
+    lastname: string;
+    email: string;
+}
 export interface Company {
     id: string;
     name: string;
@@ -16,12 +28,9 @@ export interface Company {
     vat_tax_id?: string;
     reseller_id?: string;
     legal_address?: CompanyLegalAddressModel;
-    company_admin?: {
-        id: string;
-        firstname: string;
-        lastname: string;
-        email: string;
-    };
+    company_admin?: CompanyContact;
+    sales_representative?: CompanySalesRepresentative;
+    payment_methods?: string[];
 }
 export interface CompanyModel extends Company {
     canEdit?: boolean;

@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2024 Adobe
+ *  Copyright 2025 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -46,7 +46,37 @@ export default {
 export const Default: StoryObj<CompanyProfileProps> = {
   render: (args) => (
     <div style={{ margin: '0 20px' }}>
-                <CompanyProfile {...args} />
+      <CompanyProfile {...args} />
+    </div>
+  ),
+};
+
+/**
+ * CompanyProfile without header for embedded usage
+ */
+export const WithoutHeader: StoryObj<CompanyProfileProps> = {
+  args: {
+    withHeader: false,
+    className: 'company-profile-embedded',
+  },
+  render: (args) => (
+    <div style={{ margin: '0 20px' }}>
+      <CompanyProfile {...args} />
+    </div>
+  ),
+};
+
+/**
+ * CompanyProfile with custom styling
+ */
+export const CustomStyling: StoryObj<CompanyProfileProps> = {
+  args: {
+    withHeader: true,
+    className: 'company-profile-custom',
+  },
+  render: (args) => (
+    <div style={{ margin: '0 20px', backgroundColor: '#f5f5f5', padding: '20px' }}>
+      <CompanyProfile {...args} />
     </div>
   ),
 };

@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2024 Adobe
+ *  Copyright 2025 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -41,12 +41,21 @@ export const COMPANY_BASIC_INFO_FRAGMENT = /* GraphQL */ `
   }
 `;
 
+export const COMPANY_SALES_REPRESENTATIVE_FRAGMENT = /* GraphQL */ `
+  fragment COMPANY_SALES_REPRESENTATIVE_FRAGMENT on CompanySalesRepresentative {
+    firstname
+    lastname
+    email
+  }
+`;
+
 export const COMPANY_ADMIN_FRAGMENT = /* GraphQL */ `
   fragment COMPANY_ADMIN_FRAGMENT on Customer {
     id
     firstname
     lastname
     email
+    job_title
   }
 `;
 
@@ -70,8 +79,13 @@ export const COMPANY_FULL_FRAGMENT = /* GraphQL */ `
     company_admin {
       ...COMPANY_ADMIN_FRAGMENT
     }
+    sales_representative {
+      ...COMPANY_SALES_REPRESENTATIVE_FRAGMENT
+    }
+    payment_methods
   }
   ${COMPANY_BASIC_INFO_FRAGMENT}
   ${COMPANY_LEGAL_ADDRESS_FRAGMENT}
   ${COMPANY_ADMIN_FRAGMENT}
+  ${COMPANY_SALES_REPRESENTATIVE_FRAGMENT}
 `;

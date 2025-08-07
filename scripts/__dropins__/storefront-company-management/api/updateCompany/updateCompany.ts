@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2024 Adobe
+ *  Copyright 2025 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -44,9 +44,72 @@ export const updateCompany = async (input: any): Promise<CompanyModel> => {
     transformedInput.reseller_id = input.reseller_id;
   }
   
+  // Transform legal address
+  if (input.legal_address !== undefined) {
+    // Handle street field - ensure it's always a flat array of strings
+    let streetArray;
+    if (Array.isArray(input.legal_address.street)) {
+      // If street is already an array, use it directly and add street_2 if present
+      streetArray = [...input.legal_address.street];
+      if (input.legal_address.street_2) {
+        streetArray.push(input.legal_address.street_2);
+      }
+    } else {
+      // If street is a string, create array normally
+      streetArray = [input.legal_address.street, input.legal_address.street_2].filter(Boolean);
+    }
+    
+    // Remove any empty strings and ensure all elements are strings
+    streetArray = streetArray.filter(street => street && typeof street === 'string' && street.trim().length > 0);
+    
+    // Handle region - different approaches for dropdown vs custom regions
+    let regionValue;
+    if (input.legal_address.region && typeof input.legal_address.region === 'object') {
+      const regionObj = input.legal_address.region;
+      
+      // Check if this is a custom region (region === region_code) or predefined region
+      if (regionObj.region === regionObj.region_code) {
+        // Custom region - send as object with region_id: 0
+        regionValue = {
+          region: regionObj.region,
+          region_code: regionObj.region_code,
+          region_id: 0
+        };
+      } else {
+        // Predefined region - send as object
+        regionValue = {
+          region: regionObj.region,
+          region_code: regionObj.region_code,
+        };
+      }
+    } else if (input.legal_address.region_code && input.legal_address.region !== input.legal_address.region_code) {
+      // If we have different region and region_code (dropdown case)
+      regionValue = {
+        region: input.legal_address.region || input.legal_address.region_code,
+        region_code: input.legal_address.region_code,
+      };
+    } else if (input.legal_address.region) {
+      // If we only have region string (fallback case)
+      regionValue = {
+        region: input.legal_address.region,
+        region_code: input.legal_address.region,
+        region_id: 0
+      };
+    }
+    
+    transformedInput.legal_address = {
+      street: streetArray,
+      city: input.legal_address.city,
+      region: regionValue,
+      country_id: input.legal_address.country_code, // GraphQL expects country_id, not country_code
+      postcode: input.legal_address.postcode,
+      telephone: input.legal_address.telephone,
+    };
+  }
+  
   // Copy any other fields that don't need transformation
   Object.keys(input).forEach(key => {
-    if (!['name', 'email', 'legal_name', 'vat_tax_id', 'reseller_id'].includes(key)) {
+    if (!['name', 'email', 'legal_name', 'vat_tax_id', 'reseller_id', 'legal_address'].includes(key)) {
       transformedInput[key] = input[key];
     }
   });

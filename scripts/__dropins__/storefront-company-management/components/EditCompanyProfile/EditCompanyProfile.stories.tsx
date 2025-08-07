@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2024 Adobe
+ *  Copyright 2025 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -68,10 +68,10 @@ const meta: Meta<EditCompanyProfileProps> = {
 
 export default meta;
 
-type Story = StoryObj<EditCompanyInformationProps>;
+type Story = StoryObj<EditCompanyProfileProps>;
 
 /**
- * Basic story for the EditCompanyInformation component with default props.
+ * Basic story for the EditCompanyProfile component with complete company data.
  */
 export const Basic: Story = {
   args: {
@@ -82,6 +82,30 @@ export const Basic: Story = {
       legal_name: 'Acme Corporation LLC',
       vat_tax_id: 'VAT123456789',
       reseller_id: 'RES987654321',
+      legal_address: {
+        street: ['123 Business Ave', 'Suite 100'],
+        city: 'San Francisco',
+        region: {
+          region: 'California',
+          regionCode: 'CA',
+          regionId: 12,
+        },
+        countryCode: 'US',
+        postcode: '94105',
+        telephone: '+1-555-123-4567',
+      },
+      company_admin: {
+        id: '1',
+        firstname: 'John',
+        lastname: 'Doe',
+        email: 'john.doe@acme.com',
+      },
+      sales_representative: {
+        firstname: 'Jane',
+        lastname: 'Smith',
+        email: 'jane.smith@adobe.com',
+      },
+      payment_methods: ['banktransfer', 'checkmo', 'payflowpro'],
       canEdit: true,
     },
     loading: false,
@@ -148,6 +172,74 @@ export const MinimalData: Story = {
       id: '1',
       name: 'Small Business',
       email: 'contact@smallbiz.com',
+      canEdit: true,
+    },
+  },
+};
+
+/**
+ * Story with custom region (text input) to test countries without predefined regions.
+ */
+export const CustomRegion: Story = {
+  args: {
+    ...Basic.args,
+    company: {
+      id: '2',
+      name: 'Global Enterprises',
+      email: 'info@global.com',
+      legal_name: 'Global Enterprises Ltd',
+      vat_tax_id: 'VAT987654321',
+      reseller_id: 'RES123456789',
+      legal_address: {
+        street: ['456 International Blvd'],
+        city: 'Kampala',
+        region: {
+          region: 'Central Region',
+          regionCode: 'Central Region',
+          regionId: 0, // Custom region indicator
+        },
+        countryCode: 'UG', // Uganda - country without predefined regions
+        postcode: '12345',
+        telephone: '+256-123-456789',
+      },
+      company_admin: {
+        id: '2',
+        firstname: 'Alice',
+        lastname: 'Johnson',
+        email: 'alice.johnson@global.com',
+      },
+      canEdit: true,
+    },
+  },
+};
+
+/**
+ * Story showing validation errors for required fields.
+ */
+export const ValidationErrors: Story = {
+  args: {
+    ...Basic.args,
+    company: {
+      id: '3',
+      name: '', // Empty to trigger validation
+      email: 'invalid-email', // Invalid email format
+      legal_address: {
+        street: [''],
+        city: '',
+        region: {
+          region: '',
+          regionCode: '',
+          regionId: 0,
+        },
+        countryCode: '',
+        postcode: '',
+        telephone: '',
+      },
+      canEdit: true,
+    },
+    inLineAlertProps: {
+      text: 'Please fix the validation errors below.',
+      type: 'error',
     },
   },
 };

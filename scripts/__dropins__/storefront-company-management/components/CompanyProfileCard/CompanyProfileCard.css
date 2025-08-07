@@ -94,3 +94,51 @@
   font: var(--type-body-2-default-font);
   padding: var(--spacing-medium);
 }
+
+/* Contacts Section */
+.account-company-profile-card__content .company-contacts {
+  margin-top: var(--spacing-medium);
+  padding-top: var(--spacing-medium);
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.account-company-profile-card__content .company-contacts > p:first-child {
+  font: var(--type-body-1-strong-font);
+  font-weight: 500;
+  margin-bottom: var(--spacing-small);
+}
+
+.account-company-profile-card__content .company-contact {
+  margin-bottom: var(--spacing-medium);
+  padding: var(--spacing-small);
+  background-color: var(--color-neutral-50);
+  border-radius: var(--shape-border-radius-1);
+}
+
+.account-company-profile-card__content .company-contact p {
+  margin-bottom: var(--spacing-xsmall);
+}
+
+.account-company-profile-card__content .company-contact p:first-child {
+  font-weight: 500;
+  color: var(--color-neutral-700);
+}
+
+/* Payment Methods Section */
+.account-company-profile-card__content .company-payment-methods {
+  margin-top: var(--spacing-medium);
+  padding-top: var(--spacing-medium);
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.account-company-profile-card__content .company-payment-methods > p:first-child,
+.account-company-profile-card__content .company-payment-methods > p:nth-child(2) {
+  font: var(--type-body-1-strong-font);
+  font-weight: 500;
+  margin-bottom: var(--spacing-small);
+}
+
+.account-company-profile-card__content .company-payment-methods p {
+  margin-bottom: var(--spacing-xsmall);
+}
+

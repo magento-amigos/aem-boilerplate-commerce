@@ -78,3 +78,24 @@
     width: 100%;
   }
 }
+
+/* Address Section */
+.account-edit-company-profile-form__section {
+  grid-column: span 2;
+  margin-top: var(--spacing-large);
+  padding-top: var(--spacing-medium);
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.account-edit-company-profile-form__section-title {
+  font: var(--type-headline-2-default-font);
+  color: var(--color-neutral-800);
+  margin-bottom: var(--spacing-medium);
+  padding-bottom: var(--spacing-xsmall);
+}
+
+@media (max-width: 768px) {
+  .account-edit-company-profile-form__section {
+    grid-column: span 1;
+  }
+}

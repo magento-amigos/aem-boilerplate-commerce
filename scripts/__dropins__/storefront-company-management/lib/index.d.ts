@@ -2,7 +2,7 @@
  * ADOBE CONFIDENTIAL
  * __________________
  *
- *  Copyright 2024 Adobe
+ *  Copyright 2025 Adobe
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -16,4 +16,5 @@
  *******************************************************************/
 export * from './fetch-error';
 export * from './network-error';
+export * from './payment-methods';
 //# sourceMappingURL=index.d.ts.map

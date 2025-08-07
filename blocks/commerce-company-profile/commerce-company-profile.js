@@ -33,6 +33,7 @@ export default async function decorate(block) {
     return;
   }
 
-  // Render company profile if authenticated, company functionality is enabled, and customer has a company
+  // Render company profile if authenticated, company functionality is enabled,
+  // and customer has a company
   await companyRenderer.render(CompanyProfile, {})(block);
 }
