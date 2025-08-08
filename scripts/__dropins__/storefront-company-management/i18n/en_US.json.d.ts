@@ -13,35 +13,78 @@ declare const _default: {
         "country": "Country",
         "stateProvince": "State/Province",
         "zipPostalCode": "ZIP/Postal Code",
-        "phoneNumber": "Phone Number"
+        "phoneNumber": "Phone Number",
+        "status": "Status",
+        "region": "Region",
+        "postalCode": "Postal Code"
       },
       "buttons": {
         "edit": "Edit",
         "cancel": "Cancel",
         "save": "Save Changes",
-        "saving": "Saving..."
+        "saving": "Saving...",
+        "close": "Close",
+        "confirm": "Confirm"
       },
       "validation": {
         "required": "This field is required",
         "invalidEmail": "Please enter a valid email address",
         "companyNameRequired": "Company name is required",
         "emailRequired": "Email is required",
-        "emailNotAvailable": "This email is already used by another company"
+        "emailNotAvailable": "This email is already used by another company",
+        "phoneInvalid": "Please enter a valid phone number",
+        "postalCodeInvalid": "Please enter a valid postal code"
+      },
+      "messages": {
+        "loading": "Loading...",
+        "noData": "No data available",
+        "error": "An error occurred",
+        "success": "Operation completed successfully"
+      },
+      "ariaLabels": {
+        "editButton": "Edit company profile",
+        "cancelButton": "Cancel editing",
+        "saveButton": "Save company profile changes",
+        "closeButton": "Close dialog"
       }
     },
     "CompanyProfile": {
-      "containerTitle": "Company Profile"
+      "containerTitle": "Company Profile",
+      "editCompanyProfile": {
+        "containerTitle": "Edit Company Profile",
+        "companySuccess": "Company profile updated successfully",
+        "companyError": "Failed to update company profile",
+        "buttonSecondary": "Cancel",
+        "buttonPrimary": "Save Changes"
+      },
+      "companyProfileCard": {
+        "noDataMessage": "Company profile not available. Please contact your administrator.",
+        "contacts": "Contacts",
+        "companyAdministrator": "Company Administrator",
+        "salesRepresentative": "Sales Representative",
+        "paymentInformation": "Payment Information",
+        "availablePaymentMethods": "Available Payment Methods",
+        "companyDetails": "Company Details",
+        "addressInformation": "Address Information"
+      },
+      "messages": {
+        "loadError": "Failed to load company profile",
+        "updateError": "Failed to update company profile",
+        "loadingProfile": "Loading company profile...",
+        "savingProfile": "Saving company profile..."
+      }
     },
-    "CompanyProfileCard": {
-      "noDataMessage": "Company profile not available. Please contact your administrator.",
-      "contacts": "Contacts",
-      "companyAdministrator": "Company Administrator",
-      "salesRepresentative": "Sales Representative",
-      "paymentInformation": "Payment Information",
-      "availablePaymentMethods": "Available Payment Methods"
-    },
-    "EditCompanyProfile": {
-      "title": "Edit Company Profile"
+    "FormText": {
+      "requiredFieldError": "This is a required field.",
+      "numericError": "Only numeric values are allowed.",
+      "alphaNumWithSpacesError": "Only alphanumeric characters and spaces are allowed.",
+      "alphaNumericError": "Only alphanumeric characters are allowed.",
+      "alphaError": "Only alphabetic characters are allowed.",
+      "emailError": "Please enter a valid email address.",
+      "phoneError": "Please enter a valid phone number.",
+      "postalCodeError": "Please enter a valid postal code.",
+      "lengthTextError": "Text length must be between {min} and {max} characters.",
+      "companyNameLengthError": "Company name must be between {min} and {max} characters."
     }
   }
 };
