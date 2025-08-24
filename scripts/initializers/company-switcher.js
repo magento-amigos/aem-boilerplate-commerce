@@ -1,26 +1,26 @@
 import { events } from '@dropins/tools/event-bus.js';
 import { getHeaders, getConfigValue } from '@dropins/tools/lib/aem/configs.js';
 import { initializers } from '@dropins/tools/initializer.js';
-import { initializeDropin } from './index.js';
-import { fetchPlaceholders } from '../commerce.js';
-import { 
+import {
   initialize,
   setFetchGraphQlHeaders,
   setFetchGraphQlHeader as setCompanyGraphQlHeader,
-  removeFetchGraphQlHeader as removeCompanyGraphQlHeader 
+  removeFetchGraphQlHeader as removeCompanyGraphQlHeader,
 } from '@dropins/storefront-company-switcher/api.js';
 import {
   setFetchGraphQlHeader as setCatalogGraphQlHeader,
-  removeFetchGraphQlHeader as removeCatalogGraphQlHeader
+  removeFetchGraphQlHeader as removeCatalogGraphQlHeader,
 } from '@dropins/storefront-pdp/api.js';
 import {
   setFetchGraphQlHeader as setCartGraphQlHeader,
-  removeFetchGraphQlHeader as removeCartGraphQlHeader
+  removeFetchGraphQlHeader as removeCartGraphQlHeader,
 } from '@dropins/storefront-cart/api.js';
 import {
   setFetchGraphQlHeader as setSearchGraphQlHeader,
-  removeFetchGraphQlHeader as removeSearchGraphQlHeader
+  removeFetchGraphQlHeader as removeSearchGraphQlHeader,
 } from '@dropins/storefront-product-discovery/api.js';
+import { initializeDropin } from './index.js';
+import { fetchPlaceholders } from '../commerce.js';
 
 const headerKey = getConfigValue('company-switcher.company-header-key');
 const companySessionKey = getConfigValue('company-switcher.company-session-key');
@@ -29,15 +29,15 @@ const setCompanyHeaderFns = [
   setCompanyGraphQlHeader,
   setCatalogGraphQlHeader,
   setCartGraphQlHeader,
-  setSearchGraphQlHeader
+  setSearchGraphQlHeader,
 ];
 
 const removeCompanyHeaderFns = [
   removeCompanyGraphQlHeader,
-  removeCompanyGraphQlHeader,
+  removeCatalogGraphQlHeader,
   removeCartGraphQlHeader,
-  removeSearchGraphQlHeader
-]
+  removeSearchGraphQlHeader,
+];
 
 function removeCompanyHeaders() {
   removeCompanyHeaderFns.forEach((removeFn) => {
