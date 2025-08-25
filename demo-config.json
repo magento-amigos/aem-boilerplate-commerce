@@ -16,6 +16,10 @@
           "Magento-Environment-Id": "f38a0de0-764b-41fa-bd2c-5bc2f3c7b39a"
         }
       },
+      "company-switcher": {
+        "company-header-key": "X-Adobe-Company",
+        "company-session-key": "DROPIN__COMPANYSWITCHER__COMPANY__CONTEXT"
+      },
       "analytics": {
         "base-currency-code": "USD",
         "environment": "Testing",
