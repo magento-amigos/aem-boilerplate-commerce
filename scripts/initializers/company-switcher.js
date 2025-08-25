@@ -19,6 +19,15 @@ import {
   setFetchGraphQlHeader as setSearchGraphQlHeader,
   removeFetchGraphQlHeader as removeSearchGraphQlHeader,
 } from '@dropins/storefront-product-discovery/api.js';
+import {
+  setFetchGraphQlHeader as setOrderGraphQlHeader,
+  removeFetchGraphQlHeader as removeOrderGraphQlHeader,
+} from '@dropins/storefront-order/api.js';
+import {
+  setFetchGraphQlHeader as setAccountGraphQlHeader,
+  removeFetchGraphQlHeader as removeAccountGraphQlHeader,
+} from '@dropins/storefront-account/api.js';
+
 import { initializeDropin } from './index.js';
 import { fetchPlaceholders } from '../commerce.js';
 
@@ -30,6 +39,8 @@ const setCompanyHeaderFns = [
   setCatalogGraphQlHeader,
   setCartGraphQlHeader,
   setSearchGraphQlHeader,
+  setOrderGraphQlHeader,
+  setAccountGraphQlHeader,
 ];
 
 const removeCompanyHeaderFns = [
@@ -37,6 +48,8 @@ const removeCompanyHeaderFns = [
   removeCatalogGraphQlHeader,
   removeCartGraphQlHeader,
   removeSearchGraphQlHeader,
+  removeOrderGraphQlHeader,
+  removeAccountGraphQlHeader,
 ];
 
 function removeCompanyHeaders() {

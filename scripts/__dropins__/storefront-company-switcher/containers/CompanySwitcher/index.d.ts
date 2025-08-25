@@ -7,5 +7,6 @@
  * accompanying it.
  *******************************************************************/
 export * from './CompanySwitcher';
+export * from './useCompanyData';
 export { CompanySwitcher as default } from './CompanySwitcher';
 //# sourceMappingURL=index.d.ts.map
