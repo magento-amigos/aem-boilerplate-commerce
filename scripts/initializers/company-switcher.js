@@ -7,50 +7,32 @@ import {
   setFetchGraphQlHeader as setCompanyGraphQlHeader,
   removeFetchGraphQlHeader as removeCompanyGraphQlHeader,
 } from '@dropins/storefront-company-switcher/api.js';
-import {
-  setFetchGraphQlHeader as setCatalogGraphQlHeader,
-  removeFetchGraphQlHeader as removeCatalogGraphQlHeader,
-} from '@dropins/storefront-pdp/api.js';
-import {
-  setFetchGraphQlHeader as setCartGraphQlHeader,
-  removeFetchGraphQlHeader as removeCartGraphQlHeader,
-} from '@dropins/storefront-cart/api.js';
-import {
-  setFetchGraphQlHeader as setSearchGraphQlHeader,
-  removeFetchGraphQlHeader as removeSearchGraphQlHeader,
-} from '@dropins/storefront-product-discovery/api.js';
-import {
-  setFetchGraphQlHeader as setOrderGraphQlHeader,
-  removeFetchGraphQlHeader as removeOrderGraphQlHeader,
-} from '@dropins/storefront-order/api.js';
-import {
-  setFetchGraphQlHeader as setAccountGraphQlHeader,
-  removeFetchGraphQlHeader as removeAccountGraphQlHeader,
-} from '@dropins/storefront-account/api.js';
+import * as pdpFetchGraphQl from '@dropins/storefront-pdp/api.js';
+import * as cartFetchGraphQl from '@dropins/storefront-cart/api.js';
+import * as searchFetchGraphQl from '@dropins/storefront-product-discovery/api.js';
+import * as orderFetchGraphQl from '@dropins/storefront-order/api.js';
+import * as accountFetchGraphQl from '@dropins/storefront-account/api.js';
+import * as companyFetchGraphQl from '@dropins/storefront-company-switcher/api.js';
 
 import { initializeDropin } from './index.js';
 import { fetchPlaceholders } from '../commerce.js';
 
-const headerKey = getConfigValue('company-switcher.company-header-key');
-const companySessionKey = getConfigValue('company-switcher.company-session-key');
+const headerKey = 'X-Adobe-Company';
+const companySessionKey = 'DROPIN__COMPANYSWITCHER__COMPANY__CONTEXT';
 
-const setCompanyHeaderFns = [
-  setCompanyGraphQlHeader,
-  setCatalogGraphQlHeader,
-  setCartGraphQlHeader,
-  setSearchGraphQlHeader,
-  setOrderGraphQlHeader,
-  setAccountGraphQlHeader,
-];
-
-const removeCompanyHeaderFns = [
-  removeCompanyGraphQlHeader,
-  removeCatalogGraphQlHeader,
-  removeCartGraphQlHeader,
-  removeSearchGraphQlHeader,
-  removeOrderGraphQlHeader,
-  removeAccountGraphQlHeader,
-];
+const setCompanyHeaderFns = [];
+const removeCompanyHeaderFns = [];
+[
+  pdpFetchGraphQl,
+  cartFetchGraphQl,
+  searchFetchGraphQl,
+  orderFetchGraphQl,
+  accountFetchGraphQl,
+  companyFetchGraphQl,
+].forEach(({ setFetchGraphQlHeader, removeFetchGraphQlHeader }) => {
+  setCompanyHeaderFns.push(setFetchGraphQlHeader)
+  removeCompanyHeaderFns.push(removeFetchGraphQlHeader);
+})
 
 function removeCompanyHeaders() {
   removeCompanyHeaderFns.forEach((removeFn) => {
@@ -81,13 +63,16 @@ function handleCompanyContextChanged(companyId) {
   sessionStorage.setItem(companySessionKey, companyId);
 }
 
-function restoreCompanyContext() {
+export function restoreCompanyContext() {
   const companyId = sessionStorage.getItem(companySessionKey);
   if (companyId) {
     setCompanyHeaders(companyId);
   }
   events.emit('companyContext/restored', companyId);
 }
+
+events.on('companyContext/changed', handleCompanyContextChanged, { eager: true });
+events.on('authenticated', handleAuthenticated, { eager: true });
 
 await initializeDropin(async () => {
   setFetchGraphQlHeaders((prev) => ({ ...prev, ...getHeaders('company-switcher') }));
@@ -98,10 +83,6 @@ await initializeDropin(async () => {
       ...labels,
     },
   };
-
-  restoreCompanyContext();
-  events.on('companyContext/changed', handleCompanyContextChanged, { eager: true });
-  events.on('authenticated', handleAuthenticated, { eager: true });
 
   return initializers.mountImmediately(initialize, { langDefinitions });
 })();

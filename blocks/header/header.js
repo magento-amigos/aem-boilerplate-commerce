@@ -5,10 +5,10 @@ import { tryRenderAemAssetsImage } from '@dropins/tools/lib/aem/assets.js';
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { fetchPlaceholders, getProductLink, rootLink } from '../../scripts/commerce.js';
+import { getConfigValue } from '@dropins/tools/lib/aem/configs.js';
 
 import renderAuthCombine from './renderAuthCombine.js';
 import { renderAuthDropdown } from './renderAuthDropdown.js';
-import renderCompanySwitcher from './renderCompanySwitcher.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
@@ -528,5 +528,11 @@ export default async function decorate(block) {
   renderAuthDropdown(navTools);
 
   /** Company Switcher */
-  renderCompanySwitcher(navTools);
+  events.on('authenticated', async function (authenticated) {
+      if (authenticated && getConfigValue('commerce-companies-enabled') === true) {
+        (await import('./renderCompanySwitcher.js')).default(navTools);
+      };
+    },
+    { eager: true },
+  );
 }

@@ -54,7 +54,16 @@ export default async function initializeDropins() {
 
     // Initialize Global Drop-ins
     await import('./auth.js');
-    await import('./company-switcher.js');
+
+    events.on('authenticated', function (authenticated) {
+      if (authenticated && getConfigValue('commerce-companies-enabled') === true) {
+        import('./company-switcher.js').then((module) => {
+          module.restoreCompanyContext();
+        });
+      };
+    },
+    { eager: true });
+
     await import('./personalization.js');
 
     import('./cart.js');
