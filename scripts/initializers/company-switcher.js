@@ -1,12 +1,7 @@
 import { events } from '@dropins/tools/event-bus.js';
-import { getHeaders, getConfigValue } from '@dropins/tools/lib/aem/configs.js';
+import { getHeaders } from '@dropins/tools/lib/aem/configs.js';
 import { initializers } from '@dropins/tools/initializer.js';
-import {
-  initialize,
-  setFetchGraphQlHeaders,
-  setFetchGraphQlHeader as setCompanyGraphQlHeader,
-  removeFetchGraphQlHeader as removeCompanyGraphQlHeader,
-} from '@dropins/storefront-company-switcher/api.js';
+import { initialize, setFetchGraphQlHeaders } from '@dropins/storefront-company-switcher/api.js';
 import * as pdpFetchGraphQl from '@dropins/storefront-pdp/api.js';
 import * as cartFetchGraphQl from '@dropins/storefront-cart/api.js';
 import * as searchFetchGraphQl from '@dropins/storefront-product-discovery/api.js';
@@ -30,9 +25,9 @@ const removeCompanyHeaderFns = [];
   accountFetchGraphQl,
   companyFetchGraphQl,
 ].forEach(({ setFetchGraphQlHeader, removeFetchGraphQlHeader }) => {
-  setCompanyHeaderFns.push(setFetchGraphQlHeader)
+  setCompanyHeaderFns.push(setFetchGraphQlHeader);
   removeCompanyHeaderFns.push(removeFetchGraphQlHeader);
-})
+});
 
 function removeCompanyHeaders() {
   removeCompanyHeaderFns.forEach((removeFn) => {
