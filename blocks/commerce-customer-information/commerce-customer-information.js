@@ -36,7 +36,7 @@ export default async function decorate(block) {
         // Direct render approach (no React container)
         (async () => {
           try {
-            const q = `query { company { name } customer { job_title telephone } }`;
+            const q = 'query { company { name } customer { job_title telephone } }';
             const r = await fetchGraphQl(q, { method: 'GET', cache: 'no-cache' });
             const d = r?.data || {};
             const name = (d?.company?.name || '').trim();
@@ -66,6 +66,7 @@ export default async function decorate(block) {
             addGroup('Job Title', job);
             addGroup('Work Phone Number', phone);
           } catch (e) {
+            // ignore
           }
         })();
       };
@@ -75,7 +76,10 @@ export default async function decorate(block) {
       const tryMount = () => {
         const host = block.querySelector(SELECTOR);
         if (!host) {
-          if (tries++ < maxTries) setTimeout(tryMount, 250);
+          if (tries < maxTries) {
+            tries += 1;
+            setTimeout(tryMount, 250);
+          }
           return;
         }
         ensureMount(host);
@@ -84,6 +88,7 @@ export default async function decorate(block) {
       };
       tryMount();
     } catch (e) {
+      // ignore
     }
   }
 }
