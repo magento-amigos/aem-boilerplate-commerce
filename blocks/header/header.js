@@ -8,6 +8,7 @@ import { fetchPlaceholders, getProductLink, rootLink } from '../../scripts/comme
 
 import renderAuthCombine from './renderAuthCombine.js';
 import { renderAuthDropdown } from './renderAuthDropdown.js';
+import renderCompanySwitcher from './renderCompanySwitcher.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
@@ -525,4 +526,7 @@ export default async function decorate(block) {
     () => !isDesktop.matches && toggleMenu(nav, navSections, false),
   );
   renderAuthDropdown(navTools);
+
+  /** Company Switcher */
+  renderCompanySwitcher(navTools);
 }
