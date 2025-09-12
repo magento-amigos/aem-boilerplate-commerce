@@ -18,9 +18,9 @@ export default async function decorate(block) {
 
     // Add company information below the customer information
     try {
-      const response = await fetchGraphQl('query { company { name } customer { job_title telephone } }', { 
-        method: 'GET', 
-        cache: 'no-cache' 
+      const response = await fetchGraphQl('query { company { name } customer { job_title telephone } }', {
+        method: 'GET',
+        cache: 'no-cache',
       });
 
       const company = response?.data?.company;
