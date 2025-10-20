@@ -14,5 +14,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe.
  *******************************************************************/
-export * from './checkIsCompanyEnabled';
+export { CustomerCompanyInfo } from './CustomerCompanyInfo';
+export type { CustomerCompanyInfoProps } from './CustomerCompanyInfo';
 //# sourceMappingURL=index.d.ts.map

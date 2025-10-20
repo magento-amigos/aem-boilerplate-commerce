@@ -15,4 +15,6 @@
  * from Adobe.
  *******************************************************************/
 export * from './useCompanyProfile';
+export * from './useCustomerCompanyInfo';
+export * from './useCompanyCreditHistory';
 //# sourceMappingURL=index.d.ts.map
